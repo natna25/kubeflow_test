@@ -12,6 +12,8 @@ import google.oauth2.service_account
 import requests
 import requests_toolbelt.adapters.appengine
 
+import base64
+
 IAM_SCOPE = 'https://www.googleapis.com/auth/iam'
 OAUTH_TOKEN_URI = 'https://www.googleapis.com/oauth2/v4/token'
 
@@ -114,6 +116,10 @@ def main():
   if args.input:
     with open(args.input) as f:
       data = f.read()
+      #check input file extension
+      if f.split(".")[-1] in ["jpg","png"]:
+          #encode image to base64, turns image to text file
+          data = base64.base64encode(data)
     resp = requests.post(
         args.url,
         verify=False,
